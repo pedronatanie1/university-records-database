@@ -1,4 +1,5 @@
 USE UniversityRecordsDB;
+GO
 
 DROP TABLE IF EXISTS Enrolment;
 DROP TABLE IF EXISTS Student;
@@ -36,7 +37,7 @@ CREATE TABLE Module (
         CHECK (credits > 0)
 );
 
-CREATE TABLE Enrollment (
+CREATE TABLE Enrolment (
     student_id INT NOT NULL,
     module_id VARCHAR(10) NOT NULL,
     mark INT NULL
