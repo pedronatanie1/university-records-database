@@ -1,0 +1,15 @@
+
+# Operating system files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Temporary and backup files
+*.tmp
+*.bak
+*~
+
+# SQL Server database files, if generated locally
+*.mdf
+*.ldf
+
