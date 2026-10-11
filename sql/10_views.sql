@@ -2,7 +2,7 @@ USE UniversityRecordsDB;
 GO
 
 -- View 1: Summarise each student's recorded academic performance.
-CREATE VIEW v_student_performance
+CREATE OR ALTER VIEW v_student_performance
 AS
 SELECT
     s.student_id,
@@ -35,7 +35,7 @@ ORDER BY average_mark DESC;
 GO
 
 -- View 2: Show recorded module results alongside student and module names.
-CREATE VIEW v_module_results
+CREATE OR ALTER VIEW v_student_performance
 AS
 SELECT
     s.student_id,
