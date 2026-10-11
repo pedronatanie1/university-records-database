@@ -17,9 +17,9 @@ WHERE last_name = 'Cooper';
 GO
 
 
--- 2. Successful transaction: insert two enrolments and commit.
--- These enrolments use existing students and modules.
--- The IF checks make this example safer to rerun.
+-- 2. Successful transaction: enrol student 10050 in two modules and commit.
+-- In the seed data student 10050 is only enrolled in CS101 and CS102, so both
+-- of these inserts really happen. The IF checks make the example safe to rerun.
 
 BEGIN TRY
     BEGIN TRANSACTION;
@@ -28,24 +28,24 @@ BEGIN TRY
     (
         SELECT 1
         FROM Enrolment
-        WHERE student_id = 10042
-          AND module_id = 'CS101'
+        WHERE student_id = 10050
+          AND module_id = 'CS103'
     )
     BEGIN
         INSERT INTO Enrolment (student_id, module_id)
-        VALUES (10042, 'CS101');
+        VALUES (10050, 'CS103');
     END;
 
     IF NOT EXISTS
     (
         SELECT 1
         FROM Enrolment
-        WHERE student_id = 10042
-          AND module_id = 'CS102'
+        WHERE student_id = 10050
+          AND module_id = 'CS104'
     )
     BEGIN
         INSERT INTO Enrolment (student_id, module_id)
-        VALUES (10042, 'CS102');
+        VALUES (10050, 'CS104');
     END;
 
     COMMIT TRANSACTION;
@@ -61,30 +61,43 @@ BEGIN CATCH
 END CATCH;
 GO
 
+-- Verify that both new enrolments were saved.
+-- Expected result: two rows (CS103 and CS104) with a NULL mark.
+SELECT
+    student_id,
+    module_id,
+    mark
+FROM Enrolment
+WHERE student_id = 10050
+  AND module_id IN ('CS103', 'CS104');
+GO
+
 
 -- 3. Failed transaction: the second insert references
 -- a module that does not exist, violating the foreign key.
 -- The first insert must also be rolled back.
+-- In the seed data student 10051 is not enrolled in CS103, so the first
+-- insert is a valid new row that would be saved if the transaction committed.
 
 BEGIN TRY
     BEGIN TRANSACTION;
 
-    -- This insert should succeed if the enrolment does not exist.
+    -- This insert is valid, so it succeeds inside the transaction.
     IF NOT EXISTS
     (
         SELECT 1
         FROM Enrolment
-        WHERE student_id = 10042
+        WHERE student_id = 10051
           AND module_id = 'CS103'
     )
     BEGIN
         INSERT INTO Enrolment (student_id, module_id)
-        VALUES (10042, 'CS103');
+        VALUES (10051, 'CS103');
     END;
 
     -- Deliberately invalid module ID: expected to fail.
     INSERT INTO Enrolment (student_id, module_id)
-    VALUES (10042, 'INVALID');
+    VALUES (10051, 'INVALID');
 
     -- Reached only if the preceding statements succeed.
     COMMIT TRANSACTION;
@@ -100,6 +113,8 @@ GO
 
 -- Verify that the first insert from the failed transaction
 -- did not remain in the database.
+-- Expected result: no rows. The valid CS103 insert was rolled back too.
+
 SELECT
     student_id,
     module_id,
