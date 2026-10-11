@@ -2,7 +2,7 @@ USE UniversityRecordsDB;
 GO
 
 -- Search for students whose first name, last name, or email
--- contains 'pedro', ignoring case.
+-- contains 'morgan', ignoring case.
 SELECT
     student_id,
     first_name,
