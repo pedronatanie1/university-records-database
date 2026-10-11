@@ -23,8 +23,9 @@ WHERE s.student_id IN
 );
 
 
--- Find students who have failed at least one module.
--- A mark below 60 is treated as a failure.
+-- Find students with at least one mark below 60, for example to flag
+-- students who may need extra support. This is a separate threshold from
+-- the pass mark of 40 used in 07_queries_aggregates.sql.
 SELECT
     s.first_name,
     s.last_name
