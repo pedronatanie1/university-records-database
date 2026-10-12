@@ -120,6 +120,6 @@ SELECT
     module_id,
     mark
 FROM Enrolment
-WHERE student_id = 10042
+WHERE student_id = 10051
   AND module_id IN ('CS103', 'INVALID');
 GO
