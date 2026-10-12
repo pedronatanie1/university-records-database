@@ -35,7 +35,7 @@ ORDER BY average_mark DESC;
 GO
 
 -- View 2: Show recorded module results alongside student and module names.
-CREATE OR ALTER VIEW v_student_performance
+CREATE OR ALTER VIEW v_student_results
 AS
 SELECT
     s.student_id,
