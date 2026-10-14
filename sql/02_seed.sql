@@ -1,23 +1,54 @@
 USE UniversityRecordsDB;
 GO
 
-INSERT INTO Course (course_id, course_name, department, duration_years)
+-- =====================================================
+-- 1. COURSES
+-- =====================================================
+
+INSERT INTO dbo.Course (
+    course_id,
+    course_name,
+    department,
+    duration_years
+)
 VALUES
     (1, 'BSc Computer Science', 'Computing', 3),
     (2, 'BSc Cyber Security', 'Computing', 3),
     (3, 'BEng Software Engineering', 'Engineering', 4),
     (4, 'BSc Data Science', 'Mathematics', 5);
 
-INSERT INTO Module (module_id, module_name, credits)
+
+-- =====================================================
+-- 2. MODULES
+-- =====================================================
+
+INSERT INTO dbo.Module (
+    module_id,
+    module_name,
+    credits
+)
 VALUES
     ('CS101', 'Programming Fundamentals', 30),
     ('CS102', 'Database Systems', 30),
     ('CS103', 'Web Development', 30),
     ('CS104', 'Data Structures and Algorithms', 30);
 
--- Insert students using the default status of 'Active'
-INSERT INTO dbo.Student (student_id, first_name, last_name,
-    email, date_of_birth, course_id, year_of_study)
+
+-- =====================================================
+-- 3. STUDENTS WITH DEFAULT STATUS
+-- =====================================================
+
+-- Insert students using the default status of 'Active'.
+
+INSERT INTO dbo.Student (
+    student_id,
+    first_name,
+    last_name,
+    email,
+    date_of_birth,
+    course_id,
+    year_of_study
+)
 VALUES
     (10042, 'Alex', 'Morgan', 'alex.morgan@example.com', '2005-03-14', 1, 2),
     (10043, 'Jamie', 'Taylor', 'jamie.taylor@example.com', '2004-07-22', 2, 3),
@@ -30,9 +61,21 @@ VALUES
     (10050, 'Cameron', 'Price', 'cameron.price@example.com', '2006-05-21', 1, 1),
     (10051, 'Drew', 'Murphy', 'drew.murphy@example.com', '2005-12-03', 2, 2);
 
--- Insert students with explicitly specified statuses
-INSERT INTO Student (student_id, first_name, last_name,
-    email, date_of_birth, course_id, year_of_study, status)
+
+-- =====================================================
+-- 4. STUDENTS WITH EXPLICIT STATUSES
+-- =====================================================
+
+INSERT INTO dbo.Student (
+    student_id,
+    first_name,
+    last_name,
+    email,
+    date_of_birth,
+    course_id,
+    year_of_study,
+    status
+)
 VALUES
     (10052, 'Quinn', 'Parker', 'quinn.parker@example.com', '2004-06-16', 3, 3, 'Graduated'),
     (10053, 'Skyler', 'Ward', 'skyler.ward@example.com', '2005-10-08', 4, 2, 'Suspended'),
@@ -43,8 +86,16 @@ VALUES
     (10058, 'Reese', 'Collins', 'reese.collins@example.com', '2005-04-07', 1, 2, 'Active'),
     (10059, 'Peyton', 'Stewart', 'peyton.stewart@example.com', '2004-02-14', 2, 3, 'Graduated');
 
--- Insert enrolments
-INSERT INTO Enrolment (student_id, module_id, mark)
+
+-- =====================================================
+-- 5. ENROLMENTS
+-- =====================================================
+
+INSERT INTO dbo.Enrolment (
+    student_id,
+    module_id,
+    mark
+)
 VALUES
     -- Student 10042
     (10042, 'CS101', 82),
@@ -107,7 +158,7 @@ VALUES
 
     -- Student 10054
     (10054, 'CS101', 90),
-    (10054, 'CS103',  NULL),
+    (10054, 'CS103', NULL),
 
     -- Student 10055
     (10055, 'CS102', 48),
@@ -122,3 +173,4 @@ VALUES
     (10058, 'CS101', 71),
     (10058, 'CS103', 79),
     (10058, 'CS104', 82);
+GO
